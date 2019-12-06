@@ -36,8 +36,8 @@ function setup() {
   noStroke();
   direction = 'unknown';
   startTime = new Date();
-  rideDuration = getRideDuration(2);
-  console.log('Ride duration: ' + rideDuration);
+  //rideDuration = getRideDuration(2);
+  //console.log('Ride duration: ' + rideDuration);
 
   createCanvas(windowWidth, windowHeight);
 
@@ -110,7 +110,7 @@ function Leg(position) {
 
         stroke(255);
         line(this.pos.x, this.pos.y, blade.head.pos.x, blade.head.pos.y);
-        console.log(locDirection);
+        //console.log(locDirection);
     }
 
     for(let i = 0; i < this.legParts; i++) {
@@ -346,7 +346,7 @@ function Blade() {
 
 
 function keyPressed() {
-
+  if (key == 's' || key == 'S') saveThumb(650, 350);
 }
 
 // Tools
@@ -363,4 +363,9 @@ function toInt(value) {
 // Timestamp
 function timestamp() {
     return Date.now();
+}
+
+function saveThumb(w, h) {
+  let img = get( width/2-w/2, height/2-h/2, w, h);
+  save(img,'thumb.jpg');
 }
