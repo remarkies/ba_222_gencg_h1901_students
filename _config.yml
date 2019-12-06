@@ -16,9 +16,3 @@ subtitle: I.BA_222_GENCG.H1901 - Winter 2019
 collections:
   Projects:
     output: true
-    
-  01-Shapes:
-    output: true
-
-  02-Agents:
-    output: true
