@@ -86,7 +86,10 @@ function getPointsFromCircleWithDiameter(center, diameter, amount) {
 }
 
 function getAngleToPoint(pointA, pointB) {
-    return pointA.angleBetween(pointB);
+  let	dx = pointA.x - pointB.x;
+  let dy = pointA.y - pointB.y;
+
+  return Math.atan2(dy,dx);
 }
 
 function Leg(position) {
@@ -94,8 +97,8 @@ function Leg(position) {
   this.length = 100;
   this.points = [];
   this.speed = 10;
-  this.legParts = 10;
-  this.maxHeadDistance = 1000;
+  this.legParts = 5;
+  this.maxHeadDistance = this.length + 50;
 
   this.createLeg = function(direction) {
 
@@ -106,11 +109,10 @@ function Leg(position) {
     let blade = getClosestBladeHead(this.pos);
     let distance = getDistanceToPoint(this.pos, blade.head.pos);
     if(distance < this.maxHeadDistance) {
-        locDirection = degrees(this.pos.angleBetween(blade.head.pos));
+        locDirection =  (degrees(getAngleToPoint(blade.head.pos, this.pos )) - 90) * -1;
 
         stroke(255);
         line(this.pos.x, this.pos.y, blade.head.pos.x, blade.head.pos.y);
-        //console.log(locDirection);
     }
 
     for(let i = 0; i < this.legParts; i++) {
@@ -230,7 +232,7 @@ function getDistanceToPoint(pointA, pointB) {
 function Monster(position) {
 
   this.pos = position;
-  this.legsCount = 4;
+  this.legsCount = 5;
   this.Shell = new Shell(this.pos, this.legsCount);
   this.monsterSpeed = 0.5;
 
