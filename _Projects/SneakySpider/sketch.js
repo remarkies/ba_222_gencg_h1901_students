@@ -47,7 +47,7 @@ function setup() {
     blades.push(new Blade());
   }
 
-  //monsters.push(new Monster(new createVector(windowWidth / 2, (windowHeight / 2) - windowWidth / 15)));
+  monsters.push(new Monster(new createVector(windowWidth / 2, (windowHeight / 2) - windowWidth / 15)));
 }
 
 function draw(){
@@ -267,13 +267,13 @@ function Monster(position) {
     } else {
       this.pos.x -= this.monsterSpeed;
     }
-
+    /*
     if(this.pos.y > blade.head.pos.y) {
       this.pos.y += this.monsterSpeed;
     } else {
-      this.pos.y -= this.monsterSpeed;
+    3  this.pos.y -= this.monsterSpeed;
     }
-
+*/
     this.Shell.moveTo(new createVector(this.pos.x, this.pos.y));
   }
 
