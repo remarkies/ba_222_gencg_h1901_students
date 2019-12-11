@@ -1,4 +1,8 @@
-let t;
+
+
+let windowHeight = window.innerHeight;
+let windowWidth = window.innerWidth;
+
 
 function setup() {
   // Canvas setup
@@ -8,10 +12,16 @@ function setup() {
   var density = displayDensity();
   pixelDensity(density);
 
+
 }
 
-function draw() {
 
+
+function draw() {
+  background(0);
+    for (let i = 0; i < numSegments - 1; i++) {
+      line(xCor[i], yCor[i], xCor[i + 1], yCor[i + 1]);
+    }
 }
 
 
