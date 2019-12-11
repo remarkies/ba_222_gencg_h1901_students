@@ -3,6 +3,7 @@ let windowHeight = window.innerHeight;
 let windowWidth = window.innerWidth;
 let stepSize, rideDuration, startTime;
 
+
 let options = {
   Background: '#2E3440',
   Color1: '#8FBCBB',
@@ -23,6 +24,7 @@ let palette = {
 
 var blades = [];
 let monsters = [];
+let fps = 60;
 
 function setup() {
 
@@ -38,14 +40,14 @@ function setup() {
   startTime = new Date();
   //rideDuration = getRideDuration(2);
   //console.log('Ride duration: ' + rideDuration);
-
+  frameRate(this.fps);
   createCanvas(windowWidth, windowHeight);
 
   for(let i = 0; i < 200; i++) {
     blades.push(new Blade());
   }
 
-  monsters.push(new Monster(new createVector(windowWidth / 2, windowHeight / 2)));
+  monsters.push(new Monster(new createVector(windowWidth / 2, (windowHeight / 2) - windowWidth / 15)));
 }
 
 function draw(){
@@ -58,11 +60,32 @@ function draw(){
       blade.display();
     });
 
+    this.fps = frameRate();
+    fill(255);
+    stroke(0);
+    text("FPS: " + this.fps.toFixed(2), 10, height - 10);
+
+    /*
+    if(this.fps > 50) {
+      blades.push(new Blade());
+    } else {
+      if(blades.length > 0) {
+        blades[0].shrink();
+      }
+    }
+
+    for(let i = 0; i < blades.length; i++) {
+      if(!blades[i].show) {
+        blades.splice(blades[i], 1 );
+      }
+    }
+*/
 
     monsters.forEach((monster) => {
       monster.move();
       monster.display();
     });
+
 
 }
 
@@ -92,9 +115,9 @@ function getAngleToPoint(pointA, pointB) {
   return Math.atan2(dy,dx);
 }
 
-function Leg(position) {
+function Leg(position, length) {
   this.pos = position;
-  this.length = 100;
+  this.length = length;
   this.points = [];
   this.speed = 10;
   this.legParts = 5;
@@ -154,12 +177,12 @@ function degreeToRadian(degree) {
 function Shell(pos, legs) {
   this.pos = pos;
   this.oldPos = null;
-  this.diameter = 50;
+  this.diameter = windowHeight / 20;
   this.points = getPointsFromCircleWithDiameter(this.pos, this.diameter, legs);
   this.legs = [];
 
   for(let i = 0; i < this.points.length; i++) {
-    this.legs.push(new Leg(this.points[i]));
+    this.legs.push(new Leg(this.points[i], this.diameter));
   }
 
   this.moveTo = function(position) {
@@ -180,7 +203,7 @@ function Shell(pos, legs) {
 
     noFill();
     stroke(palette.monster.shell);
-    strokeWeight(1);
+    strokeWeight(3);
     beginShape();
 
     for(let p = 0; p < this.points.length; p++) {
@@ -191,7 +214,7 @@ function Shell(pos, legs) {
 
     this.legs = [];
     for(let i = 0; i < this.points.length; i++) {
-      this.legs.push(new Leg(this.points[i]));
+      this.legs.push(new Leg(this.points[i], this.diameter * 2));
     }
 
     for(let l = 0; l < this.legs.length; l++) {
@@ -232,7 +255,7 @@ function getDistanceToPoint(pointA, pointB) {
 function Monster(position) {
 
   this.pos = position;
-  this.legsCount = 5;
+  this.legsCount = 8;
   this.Shell = new Shell(this.pos, this.legsCount);
   this.monsterSpeed = 0.5;
 
@@ -248,7 +271,7 @@ function Monster(position) {
   }
 
   this.display = function() {
-    this.Shell.display();
+    //this.Shell.display();
   }
 }
 
@@ -275,8 +298,9 @@ function isTooFarLeft(fixedPointNo, pointNo, range) {
 }
 
 function Blade() {
-  this.height = random(windowHeight / 4, windowHeight / 2);
-
+  this.heightGoal = random(windowHeight / 5, windowHeight / 1.5);
+  this.height = random(windowHeight / 5, windowHeight / 1.5);
+  this.show = true;
   let posX = random(0, windowWidth);
   this.pos1 = new createVector(posX, windowHeight);
   this.pos2 = new createVector(posX, windowHeight - (this.height * 1/4));
@@ -294,10 +318,35 @@ function Blade() {
   this.pos3Speed = this.pos3d * this.moveSpeed;
   this.pos4Speed = this.pos4d * this.moveSpeed;
 
-  this.stiffness = 1.5 + (1 / windowHeight * this.height);
+  this.stiffness = 1.5 + (0.5 / windowHeight * (this.height) * random(0.5, 1.5));
   this.acceleration = 0.005;
   this.maxSpeed = 0.8;
   this.maxMove = 10;
+  this.shrinkSpeed = 1;
+  this.growSpeed = -1;
+
+  this.incrementHeight = function(increment) {
+    this.pos2.y += increment;
+    this.pos3.y += increment;
+    this.pos4.y += increment;
+  }
+
+  this.shrink = function() {
+    if(this.height < 0) {
+      this.show = false;
+    } else {
+      this.height += this.shrinkSpeed;
+      this.incrementHeight(this.shrinkSpeed);
+    }
+  }
+
+  this.grow = function() {
+    //console.log(this.height);
+    if(this.height < this.heightGoal) {
+      this.height += this.growSpeed;
+      this.incrementHeight(this.growSpeed);
+    }
+  }
 
   this.move = function() {
     function getBladeSpeed(fixedPointNo, pointNo, speed, acceleration, accIncrease, maxMove, maxSpeed, stiffness) {
@@ -329,11 +378,13 @@ function Blade() {
   this.head = new Head(this.pos4);
 
   this.display = function() {
+    //this.shrink();
+    //this.grow();
     noFill();
     stroke(palette.blade.body);
-    strokeWeight(3);
+    strokeWeight(4);
     bezier(this.pos1.x, this.pos1.y, this.pos2.x, this.pos2.y, this.pos3.x, this.pos3.y, this.pos4.x, this.pos4.y);
-
+    strokeWeight(4);
     this.head.display();
 
     /*
