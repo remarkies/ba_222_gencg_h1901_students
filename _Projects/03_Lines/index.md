@@ -1,6 +1,6 @@
 ---
 layout: sketch
-title: "CIRCLES"
+title: "LINES"
 category: "Experiment"
 thumb_name: "thumb.jpg"
 includes:
