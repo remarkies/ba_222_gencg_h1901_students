@@ -288,6 +288,7 @@ function Head(pos) {
 
   this.display = function() {
     stroke(palette.blade.head);
+    
     ellipse(this.pos.x, this.pos.y, this.size, this.size);
   }
 }
@@ -331,6 +332,8 @@ function Blade() {
   this.maxMove = 10;
   this.shrinkSpeed = 1;
   this.growSpeed = -1;
+
+  this.head = new Head(this.pos4);
 
   this.incrementHeight = function(increment) {
     this.pos2.y += increment;
@@ -381,8 +384,6 @@ function Blade() {
     this.pos3.x += this.pos3Speed;
     this.pos4.x += this.pos4Speed;
   }
-
-  this.head = new Head(this.pos4);
 
   this.display = function() {
     //this.shrink();

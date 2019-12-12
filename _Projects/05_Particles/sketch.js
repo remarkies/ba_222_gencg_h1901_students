@@ -2,22 +2,23 @@
 let productionMode = false;
 let showFPS = true;
 let maxFrames = 60;
-let distanceK = 30;
+let distanceK = 40;
 let segmentsX = 10;
 let segmentsY = window.innerHeight / (window.innerWidth / segmentsX);
 
 let allowedDistance = (window.innerWidth + window.innerHeight) / distanceK;
-let maxStrokeWeight = (window.innerWidth + window.innerHeight) / 500;
+let maxStrokeWeight = (window.innerWidth + window.innerHeight) / 1000;
 let maxStrokeOpacity = 255;
 
-let pointsCount = 125;
+let pointsCount = 400;
 let pointDiameter = 5;
 let pointSpeedInitial = 2;
-let pointSpeedK1 = (window.innerWidth + window.innerHeight) / 20;
-let pointSpeedK2 = 4;
 
 let points = [];
-
+var movers = [];
+let attractors = [];
+let attractorsCount = 2;
+let attractor;
 
 function setup() {
   // Canvas setup
@@ -33,6 +34,14 @@ function setup() {
 
   frameRate(maxFrames);
   createPoints(pointsCount);
+
+  attractors.push(new Attractor(new createVector(windowWidth / 2, windowHeight / 2)));
+  /*
+  for(let i = 0; i < attractorsCount; i++) {
+    attractors.push(new Attractor(new createVector(random(windowWidth), random(windowHeight))));
+  }
+*/
+  background(0);
 }
 
 function getDistanceToPoint(pointA, pointB) {
@@ -52,8 +61,9 @@ function createPoints(amount) {
     let b = random(255);
     let o = random(255);
     let d = random(360);
+    let m = random(50);
 
-    points.push({ x: x, y: y, r: r, g: g, b: b, o: o, d: d, s: pointSpeedInitial});
+    movers[i] = new Mover(random(0.1, 2), x, y, r, g, b, o, d, pointSpeedInitial);
   }
 }
 
@@ -64,8 +74,9 @@ function degreeToRadian(degree) {
 function drawPoint(point) {
   noStroke();
   fill(point.r, point.g, point.b, point.o);
-  ellipse(point.x, point.y, pointDiameter);
+  ellipse(point.x, point.y, point.m);
 }
+
 
 function movePoint(point) {
   if(point.x > window.innerWidth || point.x < 0)
@@ -96,23 +107,31 @@ function displayFPS() {
 
 function draw() {
 
-
-
   background(0);
+
+  for(let i = 0; i < movers.length; i ++) {
+    for(let j = 0; j < attractors.length; j++) {
+      //attractors[j].display();
+      var force = attractors[j].calculateAttraction(movers[i]);
+      movers[i].applyForce(force);
+      movers[i].update();
+      movers[i].display();
+    }
+  }
 
   let quadTree = new QuadTree(new Rectangle(width / 2, height / 2, width / 2, height / 2), 20);
 
-  points.forEach((point) => {
-    quadTree.insert(new Point(point.x, point.y, point));
+  movers.forEach((mover) => {
+    quadTree.insert(new Point(mover.position.x, mover.position.y, mover));
   });
 
-  points.forEach((point) => {
-    let range = new Circle(point.x, point.y, allowedDistance);
+  movers.forEach((mover) => {
+    let range = new Circle(mover.position.x, mover.position.y, allowedDistance);
     let others = quadTree.query(range);
 
+    let countLine = 0;
     others.forEach((other) => {
-      let distance = getDistanceToPoint(point, other);
-      //console.log('Distance: ' + distance + ' Allowed: ' + allowedDistance);
+      let distance = getDistanceToPoint(mover.position, other.position);
 
 
         let perc = 100 / allowedDistance * distance;
@@ -121,38 +140,17 @@ function draw() {
 
 
         strokeWeight(dynamicStrokeWeight);
-        stroke(point.r, point.g, point.b, dynamicStrokeOpacity);
+        stroke(mover.r, mover.g, mover.b, dynamicStrokeOpacity);
 
-        stroke(point.r, point.g, point.b, 100);
-        line(point.x, point.y, other.x, other.y);
-
-    });
-    point.s = pointSpeedK1 / ((others.length*pointSpeedK2) + 1);
-    drawPoint(point);
-    movePoint(point);
-  });
-
-  //quadTree.show();
-
-  /*
-  points.forEach((point) => {
-    movePoint(point);
-
-
-    let connectionCounter = 0;
-
-    points.forEach((pointB) => {
+        if(countLine < 3) {
+          line(mover.position.x, mover.position.y, other.position.x, other.position.y);
+          countLine++;
+        }
 
     });
-    point.s = pointSpeedK1 / ((connectionCounter*pointSpeedK2) + 1);
-    //console.log(connectionCounter);
-    if(connectionCounter > 0) {
-      //console.log('No connections');
-      //drawPoint(point);
-    }
 
   });
-*/
+
   if(showFPS) displayFPS();
 }
 
