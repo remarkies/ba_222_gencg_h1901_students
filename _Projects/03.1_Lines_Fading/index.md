@@ -1,6 +1,6 @@
 ---
 layout: sketch
-title: "LINES"
+title: "FADING"
 category: "Experiment"
 thumb_name: "thumb.jpg"
 includes:
