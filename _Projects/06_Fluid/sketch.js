@@ -1,10 +1,10 @@
 // Global var
 let productionMode = false;
-let showFPS = true;
+let showFPS = false;
 
 let particles = [];
 let holes = [];
-let holesCount = 5;
+let holesCount = 0;
 
 function setup() {
   // Canvas setup
@@ -26,6 +26,8 @@ function setup() {
   for(let j = 0; j < holesCount; j++) {
     holes.push(new Hole(createVector(random(width), random(height)), random(3, 10)));
   }
+
+  background(0);
 }
 
 function draw() {

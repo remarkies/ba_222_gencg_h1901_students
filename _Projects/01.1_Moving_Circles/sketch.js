@@ -2,7 +2,7 @@
 let productionMode = false;
 let drawPointMode = true;
 
-let showFPS = true;
+let showFPS = false;
 let maxFrames = 60;
 let distanceK = 30;
 let segmentsX = 10;
@@ -108,7 +108,7 @@ function draw() {
   points.forEach((point) => {
     let range = new Circle(point.x, point.y, allowedDistance);
     let others = quadTree.query(range);
-    
+
     point.s = pointSpeedK1 / ((others.length*pointSpeedK2) + 1);
 
     if(drawPointMode)

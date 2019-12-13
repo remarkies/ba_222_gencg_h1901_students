@@ -11,7 +11,7 @@ let maxFrames = 60;
 let drawLineMode = true;
 let maxConnections = 4;
 let distanceK = 5;
-let fade = 5;
+let fade = 7;
 
 let allowedDistance = (window.innerWidth + window.innerHeight) / distanceK;
 let maxStrokeWeight = (window.innerWidth + window.innerHeight) / 500;
