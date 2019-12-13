@@ -1,10 +1,12 @@
 ---
 layout: sketch
-title: "Fluid" 
+title: "Fluid"
 category: "Experiment"
 thumb_name: "thumb.jpg"
 includes:
   - src: "sketch.js"
+  - src: "hole.js"
+  - src: "particle.js"
 ---
 
 <!--

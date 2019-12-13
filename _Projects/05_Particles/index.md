@@ -5,6 +5,9 @@ category: "Experiment"
 thumb_name: "thumb.jpg"
 includes:
   - src: "sketch.js"
+  - src: "QuadTree.js"
+  - src: attractor.js"
+  - src: "mover.js"
 ---
 
 <!--
