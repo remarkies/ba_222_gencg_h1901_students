@@ -1,22 +1,19 @@
 // Global var
 let productionMode = false;
+let drawPointMode = true;
 
-let drawPointMode = false;
-let pointsCount = 300;
-let pointDiameter = 20;
-
-let showFPS = false;
+let showFPS = true;
 let maxFrames = 60;
-
-let drawLineMode = true;
-let maxConnections = 10;
 let distanceK = 30;
+let segmentsX = 10;
+let segmentsY = window.innerHeight / (window.innerWidth / segmentsX);
 
 let allowedDistance = (window.innerWidth + window.innerHeight) / distanceK;
 let maxStrokeWeight = (window.innerWidth + window.innerHeight) / 500;
 let maxStrokeOpacity = 255;
 
-
+let pointsCount = 300;
+let pointDiameter = 20;
 let pointSpeedInitial = 2;
 let pointSpeedK1 = (window.innerWidth + window.innerHeight) / 50;
 let pointSpeedK2 = 4;
@@ -38,7 +35,6 @@ function setup() {
 
   frameRate(maxFrames);
   createPoints(pointsCount);
-  background(0);
 }
 
 function getDistanceToPoint(pointA, pointB) {
@@ -102,6 +98,7 @@ function displayFPS() {
 
 function draw() {
   background(0);
+
   let quadTree = new QuadTree(new Rectangle(width / 2, height / 2, width / 2, height / 2), 5);
 
   points.forEach((point) => {
@@ -109,25 +106,9 @@ function draw() {
   });
 
   points.forEach((point) => {
-
     let range = new Circle(point.x, point.y, allowedDistance);
     let others = quadTree.query(range);
-
-    if(drawLineMode) {
-      let counter = 0;
-      others.forEach((other) => {
-        counter++;
-        if(counter < maxConnections) {
-          let distance = getDistanceToPoint(point, other);
-          let perc = 100 / allowedDistance * distance;
-          let dynamicStrokeOpacity = maxStrokeOpacity / 100 * (100 - perc);
-          let dynamicStrokeWeight = maxStrokeWeight / 100 * (100 - perc);
-          strokeWeight(dynamicStrokeWeight);
-          stroke(point.r, point.g, point.b, dynamicStrokeOpacity);
-          line(point.x, point.y, other.x, other.y);
-        }
-      });
-    }
+    
     point.s = pointSpeedK1 / ((others.length*pointSpeedK2) + 1);
 
     if(drawPointMode)

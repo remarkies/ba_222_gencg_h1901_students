@@ -30,8 +30,6 @@ var Mover = function(mass, x, y, r, g, b, o, d, s) {
     fill(this.r, this.g, this.b, this.o);
     ellipse(this.position.x, this.position.y, this.mass*16, this.mass*16);
 
-
-
   };
 
   this.checkEdges = function() {

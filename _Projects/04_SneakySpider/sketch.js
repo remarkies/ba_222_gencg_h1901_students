@@ -2,6 +2,7 @@ let direction;
 let windowHeight = window.innerHeight;
 let windowWidth = window.innerWidth;
 let stepSize, rideDuration, startTime;
+let showFPS = false;
 
 
 let options = {
@@ -47,7 +48,15 @@ function setup() {
     blades.push(new Blade());
   }
 
-  monsters.push(new Monster(new createVector(windowWidth / 2, (windowHeight / 2) - windowWidth / 15)));
+  //monsters.push(new Monster(new createVector(windowWidth / 2, (windowHeight / 2) - windowWidth / 15)));
+}
+
+function displayFPS() {
+  let fps = frameRate();
+  fill(255);
+  stroke(0);
+  textSize(window.innerHeight / 50);
+  text("FPS: " + fps.toFixed(2), 10, height - 10);
 }
 
 function draw(){
@@ -60,33 +69,12 @@ function draw(){
       blade.display();
     });
 
-    this.fps = frameRate();
-    fill(255);
-    stroke(0);
-    text("FPS: " + this.fps.toFixed(2), 10, height - 10);
-
-    /*
-    if(this.fps > 50) {
-      blades.push(new Blade());
-    } else {
-      if(blades.length > 0) {
-        blades[0].shrink();
-      }
-    }
-
-    for(let i = 0; i < blades.length; i++) {
-      if(!blades[i].show) {
-        blades.splice(blades[i], 1 );
-      }
-    }
-*/
-
     monsters.forEach((monster) => {
       monster.move();
       monster.display();
     });
 
-
+    if(showFPS) displayFPS();
 }
 
 
@@ -288,7 +276,7 @@ function Head(pos) {
 
   this.display = function() {
     stroke(palette.blade.head);
-    
+
     ellipse(this.pos.x, this.pos.y, this.size, this.size);
   }
 }
