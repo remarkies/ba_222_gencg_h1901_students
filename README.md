@@ -12,13 +12,13 @@ This repo hold students' work for the class "I.BA_222_GENCG.H1901 - Winter 2019"
 Circles with same diameter, random color & opacity & random starting direction bouncing of the walls. Movement speed depends on circles near by.
 More circles => slower. This leads to small groups.
 
-![circles](https://remarkies.github.io/ba_222_gencg_h1901_students/Projects/01_Circles/index.html)
+(https://remarkies.github.io/ba_222_gencg_h1901_students/Projects/01_Circles/index.html)
 
 ## Connections
 
 "Connections" is the next step of "Circles". Circles diameter a lot smaller but create a line to all near by circles. Color of lines are equal to the root circle.
 
-![connections](https://remarkies.github.io/ba_222_gencg_h1901_students/Projects/02_Connections/index.html)
+(https://remarkies.github.io/ba_222_gencg_h1901_students/Projects/02_Connections/index.html)
 
 ## Fading
 
@@ -33,22 +33,22 @@ rect(0, 0, width, height);
 ```
 `blendMode(LIGHTEST)` = color + color => brighter color
 
-![fading](https://remarkies.github.io/ba_222_gencg_h1901_students/Projects/03_Fading/index.html)
+(https://remarkies.github.io/ba_222_gencg_h1901_students/Projects/03_Fading/index.html)
 
 ## Grass
 
 Project in between. Tried to animate grass.
 
-![grass](https://remarkies.github.io/ba_222_gencg_h1901_students/Projects/04_Grass/index.html)
+(https://remarkies.github.io/ba_222_gencg_h1901_students/Projects/04_Grass/index.html)
 
 ## Atom
 
 Combination of "Circles", "Connections" & "Fading" including a gravitation hole.
 
-![atom](https://remarkies.github.io/ba_222_gencg_h1901_students/Projects/05_Atom/index.html)
+(https://remarkies.github.io/ba_222_gencg_h1901_students/Projects/05_Atom/index.html)
 
 ## Fluid
 
 Basic attempt bringing lines to flow. Fading added to receive stardust. Due to random speed it looks after a while like it has multiple layers.
 
-![fluid](https://remarkies.github.io/ba_222_gencg_h1901_students/Projects/06_Fluid/index.html)
+(https://remarkies.github.io/ba_222_gencg_h1901_students/Projects/06_Fluid/index.html)
