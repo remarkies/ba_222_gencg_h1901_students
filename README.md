@@ -12,7 +12,7 @@ This repo hold students' work for the class "I.BA_222_GENCG.H1901 - Winter 2019"
 Circles with same diameter, random color & opacity & random starting direction bouncing of the walls. Movement speed depends on circles near by.
 More circles => slower. This leads to small groups.
 
-[![Circles](https://ibb.co/9bJwW5X)](https://remarkies.github.io/ba_222_gencg_h1901_students/Projects/01_Circles/index.html)
+[![Circles](https://remarkies.github.io/ba_222_gencg_h1901_students/Projects/01_Circles/index.html)](https://ibb.co/9bJwW5X)
 
 ## Connections
 
