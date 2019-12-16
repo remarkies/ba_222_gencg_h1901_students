@@ -14,12 +14,29 @@ More circles => slower. This leads to small groups.
 
 ## Connections
 
-Connections is the next step of "Circles". Circles diameter a lot smaller but create a line to all near by circles. Color of lines are equal to the root circle.
+"Connections" is the next step of "Circles". Circles diameter a lot smaller but create a line to all near by circles. Color of lines are equal to the root circle.
 
 ## Fading
 
+"Fading" is the next step of "Connections". Allowed distance to draw a line is a lot bigger but not nearly as many points are being generated.
+
+Following code creates the fade effect:
+```
+blendMode(LIGHTEST);
+noStroke();
+fill(0, 0, 0, fade);
+rect(0, 0, width, height);
+```
+`blendMode(LIGHTEST)` => color + color => brighter color
+
 ## Grass
+
+Project in between. Tried to animate grass.
 
 ## Atom
 
+Combination of "Circles", "Connections" & "Fading" including a gravitation hole.
+
 ## Fluid
+
+Basic attempt bringing lines to flow. Fading added to receive stardust. Due to random speed it looks after a while like it has multiple layers.
