@@ -10,7 +10,7 @@ let allowedDistance = (window.innerWidth + window.innerHeight) / distanceK;
 let maxStrokeWeight = (window.innerWidth + window.innerHeight) / 1000;
 let maxStrokeOpacity = 255;
 
-let pointsCount = 100;
+let pointsCount = 300;
 let pointDiameter = window.innerWidth / 2000;
 let pointSpeedInitial = 2;
 
@@ -19,7 +19,7 @@ var movers = [];
 let attractors = [];
 let attractorsCount = 1;
 let attractor;
-let fade = 10;
+let fade = 20;
 let gravity;
 
 function setup() {
@@ -109,7 +109,8 @@ function displayFPS() {
 }
 
 function draw() {
-
+    //blendMode(LIGHTEST);
+    noStroke();
     fill(0, 0, 0, fade);
     rect(0, 0, width, height);
   //background(0);

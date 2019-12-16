@@ -7,31 +7,19 @@
 
 This repo hold students' work for the class "I.BA_222_GENCG.H1901 - Winter 2019" it is built on github pages (Jekyll).
 
-```
-├── _01-Shapes        (Shapes collection)       + COLLECTIONS
-│   └── 00_empty                                +
-│       ├── index.md  (sketch info)             +
-│       ├── sketch.js (your code)               +
-│       ├── test.html (page to test locally)    +
-│       └── thumb.jpg (sketch thumb)            +
-│   ├── 01_01                                   +
-│   └── ...                                     +
-├── _02-Agents        (Agents collection)       +
+## Circles
 
-├── _includes         (gh pages layout blocks)  + GH PAGES SETTINGS
-├── _layout           (gh pages layout)         +
-├── _sass             (gh pages css)            +
+Circles with same diameter, random color & opacity & random starting direction bouncing of the walls. Movement speed depends on circles near by.
+More circles => slower. This leads to small groups.
 
-├── css               (more css)                + OTHER
-├── font-awesome                                +
-├── fonts                                       +
-├── img               (static images)
-├── js                (JS libraries) 
-└── _config.yml       (gh pages config)
-```
+## Connections
 
-All examples should be placed in the corresponding **collection** folder. To create a new collections duplicate one of the folder, rename it to `"0x_xxxxxx"` and add it's name to `_config.yml`.
+Connections is the next step of "Circles". Circles diameter a lot smaller but create a line to all near by circles. Color of lines are equal to the root circle.
 
-All the info regarding the class as well as direct links to all materials (slides, notebooks, examples, etc... ) are accessible via the github pages for this repository:
+## Fading
 
-**[https://digitalideation.github.io/ba_222_gencg_h1901/](https://digitalideation.github.io/ba_222_gencg_h1901/)**
+## Grass
+
+## Atom
+
+## Fluid
