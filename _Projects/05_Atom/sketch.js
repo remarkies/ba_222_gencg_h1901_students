@@ -1,6 +1,6 @@
 // Global var
 let productionMode = false;
-let showFPS = true;
+let showFPS = false;
 let maxFrames = 60;
 let distanceK = 50;
 let segmentsX = 10;
