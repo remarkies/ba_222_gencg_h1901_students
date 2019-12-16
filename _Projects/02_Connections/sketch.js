@@ -1,17 +1,17 @@
 // Global var
 let productionMode = false;
+let fps = 60;
 
 let drawPointMode = false;
-let pointsCount = 10;
+let pointsCount = 300;
 let pointDiameter = 20;
 
 let showFPS = false;
 let maxFrames = 60;
 
 let drawLineMode = true;
-let maxConnections = 4;
-let distanceK = 5;
-let fade = 7;
+let maxConnections = 10;
+let distanceK = 30;
 
 let allowedDistance = (window.innerWidth + window.innerHeight) / distanceK;
 let maxStrokeWeight = (window.innerWidth + window.innerHeight) / 500;
@@ -24,22 +24,23 @@ let pointSpeedK2 = 4;
 
 let points = [];
 
+let startTime;
+
 
 function setup() {
-  // Canvas setup
-  if(productionMode)
-    canvas = createCanvas(windowWidth, windowHeight-45);
-  else {
-    canvas = createCanvas(windowWidth, windowHeight);
-  }
-  canvas.parent("p5Container");
-  // Detect screen density (retina)
   var density = displayDensity();
   pixelDensity(density);
 
-  frameRate(maxFrames);
+  // Canvas setup
+  createCanvas(6480 / density, 3840 / density);
+
+  // this is optional, but lets us see how the animation will look in browser.
+  frameRate(fps);
+
   createPoints(pointsCount);
   background(0);
+
+
 }
 
 function getDistanceToPoint(pointA, pointB) {
@@ -57,7 +58,7 @@ function createPoints(amount) {
     let r = random(255);
     let g = random(255);
     let b = random(255);
-    let o = random(200,255);
+    let o = random(255);
     let d = random(360);
 
     points.push({ x: x, y: y, r: r, g: g, b: b, o: o, d: d, s: pointSpeedInitial});
@@ -102,10 +103,8 @@ function displayFPS() {
 }
 
 function draw() {
-  //background(0);
-  noStroke();
-  fill(0, 0, 0, fade);
-  rect(0, 0, width, height);
+  background(0);
+
   let quadTree = new QuadTree(new Rectangle(width / 2, height / 2, width / 2, height / 2), 5);
 
   points.forEach((point) => {

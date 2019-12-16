@@ -1,18 +1,19 @@
 class Particle {
-  constructor(vector) {
+  constructor(vector, screenMultiplier, r, g, b, o) {
     this.vector = vector;
+    this.screenMultiplier = screenMultiplier;
     this.diameter = 3;
     this.speed = random(2);
-    this.r = random(255);
-    this.g = random(10);
-    this.b = random(10);
-    this.o = random(255);
+    this.r = r;
+    this.g = g;
+    this.b = b;
+    this.o = o;
   }
   flow() {
     if(this.vector.x >= width)
       this.vector.x = 0;
 
-    this.vector.x += this.speed;
+    this.vector.x += (this.speed * this.screenMultiplier);
   }
   display() {
     noStroke();

@@ -1,10 +1,12 @@
 ---
 layout: sketch
-title: "LINES"
+title: "ATOM"
 category: "Experiment"
 thumb_name: "thumb.jpg"
 includes:
   - src: "QuadTree.js"
+  - src: "attractor.js"
+  - src: "mover.js"
   - src: "sketch.js"
 ---
 

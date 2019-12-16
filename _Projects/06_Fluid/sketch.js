@@ -1,12 +1,14 @@
 // Global var
 let productionMode = false;
 let showFPS = false;
+let fade = 40;
 
 let particles = [];
-let holes = [];
-let holesCount = 0;
+let screenRatio;
 
 function setup() {
+  screenRatio = window.windowWidth / 500;
+
   // Canvas setup
   if(productionMode)
     canvas = createCanvas(windowWidth, windowHeight-45);
@@ -19,12 +21,16 @@ function setup() {
   pixelDensity(density);
   frameRate(60);
 
-  for(let i = 0; i < height; i+=2) {
-    particles.push(new Particle(createVector(0, i)));
-  }
 
-  for(let j = 0; j < holesCount; j++) {
-    holes.push(new Hole(createVector(random(width), random(height)), random(3, 10)));
+  for(let i = 0; i < height / 2; i+=2) {
+
+    //Set color range
+    let red = random(0);
+    let green = random(100);
+    let blue = random(255);
+    let opacity = 255;
+
+    particles.push(new Particle(createVector(0, random(height)), screenRatio, red, green, blue, opacity));
   }
 
   background(0);
@@ -32,13 +38,13 @@ function setup() {
 
 function draw() {
 
+
+  fill(0, 0, 0, fade);
+  rect(0, 0, width, height);
+
   particles.forEach(particle => {
     particle.flow();
     particle.display();
-  })
-
-  holes.forEach(hole => {
-    hole.display();
   });
 
   if(showFPS)

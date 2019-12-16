@@ -1,25 +1,26 @@
 // Global var
 let productionMode = false;
-let drawPointMode = true;
-
-let showFPS = false;
+let showFPS = true;
 let maxFrames = 60;
-let distanceK = 30;
+let distanceK = 50;
 let segmentsX = 10;
 let segmentsY = window.innerHeight / (window.innerWidth / segmentsX);
 
 let allowedDistance = (window.innerWidth + window.innerHeight) / distanceK;
-let maxStrokeWeight = (window.innerWidth + window.innerHeight) / 500;
+let maxStrokeWeight = (window.innerWidth + window.innerHeight) / 1000;
 let maxStrokeOpacity = 255;
 
-let pointsCount = 300;
-let pointDiameter = 20;
+let pointsCount = 100;
+let pointDiameter = window.innerWidth / 2000;
 let pointSpeedInitial = 2;
-let pointSpeedK1 = (window.innerWidth + window.innerHeight) / 50;
-let pointSpeedK2 = 4;
 
 let points = [];
-
+var movers = [];
+let attractors = [];
+let attractorsCount = 1;
+let attractor;
+let fade = 10;
+let gravity;
 
 function setup() {
   // Canvas setup
@@ -35,6 +36,15 @@ function setup() {
 
   frameRate(maxFrames);
   createPoints(pointsCount);
+  gravity = window.windowWidth / 500;
+
+  attractors.push(new Attractor(new createVector(windowWidth / 2, windowHeight / 2), gravity));
+  /*
+  for(let i = 0; i < attractorsCount; i++) {
+    attractors.push(new Attractor(new createVector(random(windowWidth), random(windowHeight))));
+  }
+*/
+  background(0);
 }
 
 function getDistanceToPoint(pointA, pointB) {
@@ -54,8 +64,9 @@ function createPoints(amount) {
     let b = random(255);
     let o = random(255);
     let d = random(360);
+    let m = random(50);
 
-    points.push({ x: x, y: y, r: r, g: g, b: b, o: o, d: d, s: pointSpeedInitial});
+    movers[i] = new Mover(random(0.1, pointDiameter), x, y, r, g, b, o, d, pointSpeedInitial);
   }
 }
 
@@ -66,8 +77,9 @@ function degreeToRadian(degree) {
 function drawPoint(point) {
   noStroke();
   fill(point.r, point.g, point.b, point.o);
-  ellipse(point.x, point.y, pointDiameter);
+  ellipse(point.x, point.y, point.m);
 }
+
 
 function movePoint(point) {
   if(point.x > window.innerWidth || point.x < 0)
@@ -97,27 +109,53 @@ function displayFPS() {
 }
 
 function draw() {
-  background(0);
 
-  let quadTree = new QuadTree(new Rectangle(width / 2, height / 2, width / 2, height / 2), 5);
+    fill(0, 0, 0, fade);
+    rect(0, 0, width, height);
+  //background(0);
 
-  points.forEach((point) => {
-    quadTree.insert(new Point(point.x, point.y, point));
+  for(let i = 0; i < movers.length; i ++) {
+    for(let j = 0; j < attractors.length; j++) {
+      //attractors[j].display();
+      var force = attractors[j].calculateAttraction(movers[i]);
+      movers[i].applyForce(force);
+      movers[i].update();
+      movers[i].display();
+    }
+  }
+
+  let quadTree = new QuadTree(new Rectangle(width / 2, height / 2, width / 2, height / 2), 20);
+
+  movers.forEach((mover) => {
+    quadTree.insert(new Point(mover.position.x, mover.position.y, mover));
   });
 
-  points.forEach((point) => {
-    let range = new Circle(point.x, point.y, allowedDistance);
+  movers.forEach((mover) => {
+    let range = new Circle(mover.position.x, mover.position.y, allowedDistance);
     let others = quadTree.query(range);
 
-    point.s = pointSpeedK1 / ((others.length*pointSpeedK2) + 1);
+    let countLine = 0;
+    others.forEach((other) => {
+      let distance = getDistanceToPoint(mover.position, other.position);
 
-    if(drawPointMode)
-      drawPoint(point);
 
-    movePoint(point);
+        let perc = 100 / allowedDistance * distance;
+        let dynamicStrokeOpacity = maxStrokeOpacity / 100 * (100 - perc);
+        let dynamicStrokeWeight = maxStrokeWeight / 100 * (100 - perc);
+
+
+        strokeWeight(dynamicStrokeWeight);
+        stroke(mover.r, mover.g, mover.b, dynamicStrokeOpacity);
+
+        if(countLine < 3) {
+          line(mover.position.x, mover.position.y, other.position.x, other.position.y);
+          countLine++;
+        }
+
+    });
+
   });
 
-  //quadTree.show();
   if(showFPS) displayFPS();
 }
 

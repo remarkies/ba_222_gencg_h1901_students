@@ -2,15 +2,16 @@
 let productionMode = false;
 
 let drawPointMode = false;
-let pointsCount = 300;
+let pointsCount = 10;
 let pointDiameter = 20;
 
 let showFPS = false;
 let maxFrames = 60;
 
 let drawLineMode = true;
-let maxConnections = 10;
-let distanceK = 30;
+let maxConnections = 4;
+let distanceK = 5;
+let fade = 7;
 
 let allowedDistance = (window.innerWidth + window.innerHeight) / distanceK;
 let maxStrokeWeight = (window.innerWidth + window.innerHeight) / 500;
@@ -56,7 +57,7 @@ function createPoints(amount) {
     let r = random(255);
     let g = random(255);
     let b = random(255);
-    let o = random(255);
+    let o = random(200,255);
     let d = random(360);
 
     points.push({ x: x, y: y, r: r, g: g, b: b, o: o, d: d, s: pointSpeedInitial});
@@ -101,7 +102,11 @@ function displayFPS() {
 }
 
 function draw() {
-  background(0);
+  //background(0);
+  blendMode(LIGHTEST);
+  noStroke();
+  fill(0, 0, 0, fade);
+  rect(0, 0, width, height);
   let quadTree = new QuadTree(new Rectangle(width / 2, height / 2, width / 2, height / 2), 5);
 
   points.forEach((point) => {
@@ -118,12 +123,15 @@ function draw() {
       others.forEach((other) => {
         counter++;
         if(counter < maxConnections) {
+
           let distance = getDistanceToPoint(point, other);
           let perc = 100 / allowedDistance * distance;
           let dynamicStrokeOpacity = maxStrokeOpacity / 100 * (100 - perc);
           let dynamicStrokeWeight = maxStrokeWeight / 100 * (100 - perc);
           strokeWeight(dynamicStrokeWeight);
           stroke(point.r, point.g, point.b, dynamicStrokeOpacity);
+
+          stroke(point.r, point.g, point.b, 100);
           line(point.x, point.y, other.x, other.y);
         }
       });

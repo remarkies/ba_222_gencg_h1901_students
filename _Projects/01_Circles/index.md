@@ -4,6 +4,7 @@ title: "CIRCLES"
 category: "Experiment"
 thumb_name: "thumb.jpg"
 includes:
+  - src: "QuadTree.js"
   - src: "sketch.js"
 ---
 

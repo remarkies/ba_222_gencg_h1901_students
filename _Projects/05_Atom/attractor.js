@@ -4,10 +4,10 @@
 
 // An object for a draggable attractive body in our world
 
-var Attractor = function(pos) {
+var Attractor = function(pos, g) {
   this.position = pos
-  this.mass = 20;
-  this.G = 1;
+  this.mass = 10;
+  this.G = g;
   this.dragOffset = createVector(0, 0);
   this.dragging = false;
   this.rollover = false;
