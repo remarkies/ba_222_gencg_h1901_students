@@ -51,4 +51,4 @@ Combination of "Circles", "Connections" & "Fading" including a gravitation hole.
 
 Basic attempt bringing lines to flow. Fading added to receive stardust. Due to random speed it looks after a while like it has multiple layers.
 
-[![Atom](https://ibb.co/vPmxwJy)](https://remarkies.github.io/ba_222_gencg_h1901_students/Projects/06_Fluid/index.html)
+[![Fluid](https://ibb.co/vPmxwJy)](https://remarkies.github.io/ba_222_gencg_h1901_students/Projects/06_Fluid/index.html)
