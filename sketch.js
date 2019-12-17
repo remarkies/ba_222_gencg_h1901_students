@@ -1,28 +1,45 @@
-// Global var
+// sets canvas bottom - 45px if true
 let productionMode = false;
 
-let drawPointMode = false;
-let pointsCount = 10;
-let pointDiameter = 20;
+// overrides variable values in setup if true
+let randomize = true;
 
+// default: 10
+let pointsCount = 10;
+
+// in milliseconds, default: 20000
+let reset = 20000;
+
+// displays fps bottom-left corner if true
 let showFPS = false;
+
+// set max frame rate, default: 60
 let maxFrames = 60;
 
-let drawLineMode = true;
+// max: has no effect if < pointsCount, min: 2, default: 4
 let maxConnections = 4;
-let distanceK = 5;
-let fade = 7;
 
-let allowedDistance = (window.innerWidth + window.innerHeight) / distanceK;
-let maxStrokeWeight = (window.innerWidth + window.innerHeight) / 500;
-let maxStrokeOpacity = 255;
+// max: 1, min: > 0, default: 0.2
+let range = 0.2;
 
+// min: > 0, default: 3
+let maxWeigth = 3;
 
-let pointSpeedInitial = 2;
-let pointSpeedK1 = (window.innerWidth + window.innerHeight) / 50;
-let pointSpeedK2 = 4;
+// default: 100
+let strokeOpacity = 100;
 
+// default: 0.2
+let moveSpeed = 0.2;
+
+// default: 4
+let connectionSpeedInfluence = 4;
+
+// dont modify!
+let allowedDistance = (window.innerWidth + window.innerHeight) * range;
+let maxStrokeWeight = ((window.innerWidth + window.innerHeight) / 500) * maxWeigth;
+let pointSpeedK1 = (window.innerWidth + window.innerHeight) * moveSpeed / 10;
 let points = [];
+let time;
 
 
 function setup() {
@@ -38,19 +55,40 @@ function setup() {
   pixelDensity(density);
 
   frameRate(maxFrames);
-  createPoints(pointsCount);
   background(0);
+  points = createPoints(pointsCount);
+  time = millis();
+
+  if(randomize) {
+    randomizeVariables();
+  }
 }
 
-function getDistanceToPoint(pointA, pointB) {
-  var a = pointA.x - pointB.x;
-  var b = pointA.y - pointB.y;
+function randomizeVariables() {
 
-  return Math.sqrt( a*a + b*b );
+  maxConnections = random(2, 4);
+  range = random(0.1, 1);
+  maxWeigth = random(0.01, 3);
+  moveSpeed = random(0.1, 0.5);
+  connectionSpeedInfluence = random(1, 4);
+
+  console.log({
+    maxCon: maxConnections,
+    range: range,
+    maxWeight: maxWeigth,
+    moveSpeed: moveSpeed,
+    connectionSpeedInfluence: connectionSpeedInfluence
+  });
+
+  // dont modify!
+  allowedDistance = (window.innerWidth + window.innerHeight) * range;
+  maxStrokeWeight = ((window.innerWidth + window.innerHeight) / 500) * maxWeigth;
+  pointSpeedK1 = (window.innerWidth + window.innerHeight) * moveSpeed / 10;
 }
 
+//creates points to move around
 function createPoints(amount) {
-
+  let array = [];
   for(let i = 0; i < amount; i++) {
     let x = random(windowWidth);
     let y = random(windowHeight);
@@ -60,20 +98,25 @@ function createPoints(amount) {
     let o = random(200,255);
     let d = random(360);
 
-    points.push({ x: x, y: y, r: r, g: g, b: b, o: o, d: d, s: pointSpeedInitial});
+    array.push({ x: x, y: y, r: r, g: g, b: b, o: o, d: d, s: 0});
   }
+  return array;
 }
 
+//calculates distance between pointA & pointB
+function getDistanceToPoint(pointA, pointB) {
+  var a = pointA.x - pointB.x;
+  var b = pointA.y - pointB.y;
+
+  return Math.sqrt( a*a + b*b );
+}
+
+//converts degree to radian value
 function degreeToRadian(degree) {
   return degree*Math.PI / 180;
 }
 
-function drawPoint(point) {
-  noStroke();
-  fill(point.r, point.g, point.b, point.o);
-  ellipse(point.x, point.y, pointDiameter);
-}
-
+//sets new x & y value of point depending on speed & direction(0-360)
 function movePoint(point) {
   if(point.x > window.innerWidth || point.x < 0)
     inverseDirection(point, 0);
@@ -85,6 +128,7 @@ function movePoint(point) {
   point.y = point.y + point.s * cos(degreeToRadian(point.d));
 }
 
+//inverses direction(0-360) of point depending on wall hitting. d: 0 => x-axis, 1 => y-axis
 function inverseDirection(point, d) {
   if(d === 0) {
     point.d = 360 - point.d;
@@ -93,8 +137,13 @@ function inverseDirection(point, d) {
   }
 }
 
+//displays current fps
 function displayFPS() {
   let fps = frameRate();
+  blendMode(BLEND);
+  noStroke();
+  fill(0);
+  rect(0, height - 75, 400, 75);
   fill(255);
   stroke(0);
   textSize(window.innerHeight / 50);
@@ -102,49 +151,55 @@ function displayFPS() {
 }
 
 function draw() {
-  //background(0);
+
+  //color + color => brighter color
   blendMode(LIGHTEST);
-  noStroke();
-  fill(0, 0, 0, fade);
-  rect(0, 0, width, height);
-  let quadTree = new QuadTree(new Rectangle(width / 2, height / 2, width / 2, height / 2), 5);
 
-  points.forEach((point) => {
-    quadTree.insert(new Point(point.x, point.y, point));
-  });
+  //reset
+  if(millis() - time > reset) setup();
+
 
   points.forEach((point) => {
 
-    let range = new Circle(point.x, point.y, allowedDistance);
-    let others = quadTree.query(range);
+    //holds number of others points in defined range
+    let connections = 0;
 
-    if(drawLineMode) {
-      let counter = 0;
-      others.forEach((other) => {
-        counter++;
-        if(counter < maxConnections) {
+    points.forEach((other) => {
 
-          let distance = getDistanceToPoint(point, other);
-          let perc = 100 / allowedDistance * distance;
-          let dynamicStrokeOpacity = maxStrokeOpacity / 100 * (100 - perc);
-          let dynamicStrokeWeight = maxStrokeWeight / 100 * (100 - perc);
+      //get distance to other point
+      let distance = getDistanceToPoint(point, other);
+
+      //is other point within allowed range
+      if(distance < allowedDistance) {
+
+        //new connection found
+        connections++;
+
+        //calculate percentage of current distance to max distance
+        let perc = 100 / allowedDistance * distance;
+
+        //get stroke weight depending on percentage of distance
+        let dynamicStrokeWeight = maxStrokeWeight / 100 * (100 - perc);
+
+        //checks if connections don't exceed max allowed (performace improvement)
+        if(connections > 1 && connections <= maxConnections) {
+
+          //dynamic stroke weight => faster more interesting color gradient
           strokeWeight(dynamicStrokeWeight);
-          stroke(point.r, point.g, point.b, dynamicStrokeOpacity);
 
-          stroke(point.r, point.g, point.b, 100);
+          //100 = opacity => shouldn't be higher because it will get to bright to fast
+          stroke(point.r, point.g, point.b, strokeOpacity);
           line(point.x, point.y, other.x, other.y);
         }
-      });
-    }
-    point.s = pointSpeedK1 / ((others.length*pointSpeedK2) + 1);
+      }
+    });
 
-    if(drawPointMode)
-      drawPoint(point);
+    // speed / connection * influence
+    point.s = pointSpeedK1 / ((connections * connectionSpeedInfluence) + 1);
 
     movePoint(point);
   });
 
-  //quadTree.show();
   if(showFPS) displayFPS();
 }
 
