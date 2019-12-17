@@ -19,7 +19,7 @@ https://remarkies.github.io/ba_222_gencg_h1901_students/Projects/01_Circles/inde
 
 "Connections" is the next step of "Circles". Circles diameter a lot smaller but create a line to all near by circles. Color of lines are equal to the root circle.
 
-![Connections](https://i.ibb.co/z2G5X7v/Bildschirmfoto-2019-12-17-um-00-50-34.png)
+![Connections](https://i.ibb.co/KsFG2Lv/Bildschirmfoto-2019-12-17-um-00-50-34.png)
 https://remarkies.github.io/ba_222_gencg_h1901_students/Projects/02_Connections/index.html
 
 ## Fading
