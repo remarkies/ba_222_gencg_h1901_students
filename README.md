@@ -29,9 +29,6 @@ https://remarkies.github.io/ba_222_gencg_h1901_students/Projects/02_Connections/
 Following code creates the fade effect:
 ```
 blendMode(LIGHTEST);
-noStroke();
-fill(0, 0, 0, fade);
-rect(0, 0, width, height);
 ```
 `blendMode(LIGHTEST)` = color + color => brighter color
 

@@ -68,7 +68,7 @@ function randomizeVariables() {
 
   maxConnections = random(2, 4);
   range = random(0.1, 1);
-  maxWeigth = random(0.01, 3);
+  maxWeigth = random(0.08, 3);
   moveSpeed = random(0.1, 0.5);
   connectionSpeedInfluence = random(1, 4);
 
