@@ -19,7 +19,7 @@ More circles => slower. This leads to small groups.
 
 "Connections" is the next step of "Circles". Circles diameter a lot smaller but create a line to all near by circles. Color of lines are equal to the root circle.
 
-![Connections](https://ibb.co/C9htbMG)
+![Connections](https://i.ibb.co/z2G5X7v/Bildschirmfoto-2019-12-17-um-00-50-34.png)
 (https://remarkies.github.io/ba_222_gencg_h1901_students/Projects/02_Connections/index.html)
 
 ## Fading
