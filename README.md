@@ -26,11 +26,10 @@ https://remarkies.github.io/ba_222_gencg_h1901_students/Projects/02_Connections/
 
 "Fading" is the next step of "Connections". Allowed distance to draw a line is a lot bigger but not nearly as many points are being generated.
 
-Following code creates the fade effect:
+Following code combines color to a brighter color:
 ```
 blendMode(LIGHTEST);
 ```
-`blendMode(LIGHTEST)` = color + color => brighter color
 
 ![Fading](https://i.ibb.co/3W5bkCM/Bildschirmfoto-2019-12-17-um-00-51-08.png)
 https://remarkies.github.io/ba_222_gencg_h1901_students/Projects/03_Fading/index.html
