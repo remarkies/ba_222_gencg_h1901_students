@@ -1,6 +1,6 @@
 ---
 layout: front
-title: "LUKA"
+title: "LUKA KRAMER"
 subtitle: "I.BA_222_GENCG.H1901 - Winter 2019"
 
 includes:
