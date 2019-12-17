@@ -72,6 +72,14 @@ function randomizeVariables() {
   moveSpeed = random(0.1, 0.5);
   connectionSpeedInfluence = random(1, 4);
 
+  console.log({
+    maxCon: maxConnections,
+    range: range,
+    maxWeight: maxWeigth,
+    moveSpeed: moveSpeed,
+    connectionSpeedInfluence: connectionSpeedInfluence
+  });
+
   // dont modify!
   allowedDistance = (window.innerWidth + window.innerHeight) * range;
   maxStrokeWeight = ((window.innerWidth + window.innerHeight) / 500) * maxWeigth;
