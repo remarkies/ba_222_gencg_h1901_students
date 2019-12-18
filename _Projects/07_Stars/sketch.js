@@ -25,9 +25,9 @@ function setup() {
   for(let i = 0; i < height / 2; i+=2) {
 
     //Set color range
-    let red = random(255);
-    let green = random(0);
-    let blue = random(0);
+    let red = random(0);
+    let green = random(100);
+    let blue = random(255);
     let opacity = 255;
 
     particles.push(new Particle(createVector(0, random(height)), screenRatio, red, green, blue, opacity));
@@ -37,6 +37,10 @@ function setup() {
 }
 
 function draw() {
+
+
+  fill(0, 0, 0, fade);
+  rect(0, 0, width, height);
 
   particles.forEach(particle => {
     particle.flow();

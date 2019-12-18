@@ -50,7 +50,14 @@ https://remarkies.github.io/ba_222_gencg_h1901_students/Projects/05_Atom/index.h
 
 ## Fluid
 
-Basic attempt bringing lines to flow. Fading added to receive stardust. Due to random speed it looks after a while like it has multiple layers.
+Basic attempt bringing lines to flow.
+
+![Fluid](https://i.ibb.co/fptY1C6/Bildschirmfoto-2019-12-17-um-00-51-40.png)
+https://remarkies.github.io/ba_222_gencg_h1901_students/Projects/06_Fluid/index.html
+
+## Stars
+
+Based on "Fluid". Fading added to receive stardust. Due to random speed it looks after a while like it has multiple layers.
 
 ![Fluid](https://i.ibb.co/fptY1C6/Bildschirmfoto-2019-12-17-um-00-51-40.png)
 https://remarkies.github.io/ba_222_gencg_h1901_students/Projects/06_Fluid/index.html
