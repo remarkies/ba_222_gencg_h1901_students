@@ -2,7 +2,7 @@ html,
 body {
   height: 100%;
   width: 100%;
-  background-color: #111;
+  background-color: #ECEFF4;
 }
 
 body {
@@ -58,7 +58,7 @@ p {
 
 .bg-dark {
   background-color: $theme-dark;
-  color: white;
+  color: black;
 }
 
 .text-faded {
@@ -238,6 +238,8 @@ header {
   display: block;
   // max-width: 650px;
   margin: 8px;
+  border-radius: 3px;
+  overflow: hidden;
   .portfolio-box-caption {
     color: white;
     opacity: 0;
