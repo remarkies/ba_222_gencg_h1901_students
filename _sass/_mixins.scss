@@ -58,12 +58,13 @@
 @mixin sans-serif-font()
 {
 	// font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
-	font-family: 'Ubuntu', 'Helvetica Neue', Arial, sans-serif;
+	//font-family: 'Ubuntu', 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Courier Prime', monospace;
 }
 
 @mixin serif-font()
 {
 	// font-family: 'Merriweather', 'Helvetica Neue', Arial, sans-serif;
 	font-family: 'Rokkitt', 'Helvetica Neue', Arial, sans-serif;
-	
+
 }

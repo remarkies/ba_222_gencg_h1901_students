@@ -35,6 +35,7 @@ h4,
 h5,
 h6 {
   @include sans-serif-font;
+  margin-left: 8px;
 }
 
 p {
@@ -236,7 +237,7 @@ header {
   position: relative;
   display: block;
   // max-width: 650px;
-  margin: 0 auto;
+  margin: 8px;
   .portfolio-box-caption {
     color: white;
     opacity: 0;

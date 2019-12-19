@@ -1,6 +1,6 @@
 ---
 layout: sketch
-title: "FLUID"
+title: "STARS"
 category: "Experiment"
 thumb_name: "thumb.jpg"
 includes:
